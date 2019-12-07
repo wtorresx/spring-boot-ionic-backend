@@ -7,6 +7,5 @@ import x.t.wesley.cursomc.domain.Categoria;
 
 @Repository
 public interface CategoriaRepository extends JpaRepository<Categoria, Integer> {
-	
-	
+
 }

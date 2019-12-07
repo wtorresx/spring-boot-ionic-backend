@@ -20,19 +20,12 @@ public class CategoriaResource {
 	private CategoriaService catServ;
 
 	@GetMapping
-	public List<Categoria> getCategorias() {
-
-		Categoria cat1 = new Categoria(1, "Informatica");
-		Categoria cat2 = new Categoria(2, "Escritório");
-		
-		catServ.postCategoria(cat1);
-		catServ.postCategoria(cat2);
-
-		return catServ.getCategorias();
+	public ResponseEntity<?> Categorias() {
+		return ResponseEntity.ok().body(catServ.getCategorias());
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<?> getCategoria(@PathVariable("id") Integer id) {
+	public ResponseEntity<?> Categoria(@PathVariable("id") Integer id) {
 		Categoria categoria = catServ.getCategoria(id);
 		return ResponseEntity.ok().body(categoria);
 	}
