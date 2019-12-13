@@ -9,10 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import x.t.wesley.cursomc.domain.Categoria;
 import x.t.wesley.cursomc.domain.Cidade;
+import x.t.wesley.cursomc.domain.Cliente;
+import x.t.wesley.cursomc.domain.Endereco;
 import x.t.wesley.cursomc.domain.Estado;
 import x.t.wesley.cursomc.domain.Produto;
+import x.t.wesley.cursomc.domain.enums.TipoCliente;
 import x.t.wesley.cursomc.services.CategoriaService;
 import x.t.wesley.cursomc.services.CidadeService;
+import x.t.wesley.cursomc.services.ClienteService;
+import x.t.wesley.cursomc.services.EnderecoService;
 import x.t.wesley.cursomc.services.EstadoService;
 import x.t.wesley.cursomc.services.ProdutoService;
 
@@ -30,6 +35,12 @@ public class CursomcApplication implements CommandLineRunner {
 
 	@Autowired
 	private EstadoService estServ;
+
+	@Autowired
+	private ClienteService cliServ;
+
+	@Autowired
+	private EnderecoService endServ;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -67,6 +78,19 @@ public class CursomcApplication implements CommandLineRunner {
 
 		estServ.postEstados(Arrays.asList(est1, est2));
 		cidServ.postCidades(Arrays.asList(c1, c2, c3));
+
+		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "85614781609", TipoCliente.PESSOAFISICA);
+
+		Endereco e1 = new Endereco(null, "Rua Flores", "300", "Apto 303", "Jardim", "38220834", c1, cli1);
+		e1.getTelefones().addAll(Arrays.asList("(34) 9999-9999"));
+
+		Endereco e2 = new Endereco(null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", c2, cli1);
+		e2.getTelefones().addAll(Arrays.asList("(11) 9999-9999"));
+
+		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+
+		cliServ.postClientes(Arrays.asList(cli1));
+		endServ.postEnderecos(Arrays.asList(e1, e2));
 	}
 
 }
