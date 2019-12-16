@@ -48,7 +48,7 @@ public class CursomcApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-
+		
 		Categoria cat1 = new Categoria(null, "Informatica");
 		Categoria cat2 = new Categoria(null, "Escritório");
 
@@ -58,14 +58,14 @@ public class CursomcApplication implements CommandLineRunner {
 
 		cat1.getProdutos().addAll(Arrays.asList(p1, p2, p3));
 		cat2.getProdutos().addAll(Arrays.asList(p2));
-
+		
 		p1.getCategorias().addAll(Arrays.asList(cat1));
 		p2.getCategorias().addAll(Arrays.asList(cat1, cat2));
 		p3.getCategorias().addAll(Arrays.asList(cat1));
 
 		catServ.postCategorias(Arrays.asList(cat1, cat2));
 		prodServ.postProdutos(Arrays.asList(p1, p2, p3));
-
+		
 		Estado est1 = new Estado(null, "Minas Gerais");
 		Estado est2 = new Estado(null, "São Paulo");
 
@@ -91,6 +91,6 @@ public class CursomcApplication implements CommandLineRunner {
 
 		cliServ.postClientes(Arrays.asList(cli1));
 		endServ.postEnderecos(Arrays.asList(e1, e2));
+		
 	}
-
 }
