@@ -1,5 +1,6 @@
 package x.t.wesley.cursomc;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +13,20 @@ import x.t.wesley.cursomc.domain.Cidade;
 import x.t.wesley.cursomc.domain.Cliente;
 import x.t.wesley.cursomc.domain.Endereco;
 import x.t.wesley.cursomc.domain.Estado;
+import x.t.wesley.cursomc.domain.Pagamento;
+import x.t.wesley.cursomc.domain.PagamentoComBoleto;
+import x.t.wesley.cursomc.domain.PagamentoComCartao;
+import x.t.wesley.cursomc.domain.Pedido;
 import x.t.wesley.cursomc.domain.Produto;
+import x.t.wesley.cursomc.domain.enums.EstadoPagamento;
 import x.t.wesley.cursomc.domain.enums.TipoCliente;
 import x.t.wesley.cursomc.services.CategoriaService;
 import x.t.wesley.cursomc.services.CidadeService;
 import x.t.wesley.cursomc.services.ClienteService;
 import x.t.wesley.cursomc.services.EnderecoService;
 import x.t.wesley.cursomc.services.EstadoService;
+import x.t.wesley.cursomc.services.PagamentoService;
+import x.t.wesley.cursomc.services.PedidoService;
 import x.t.wesley.cursomc.services.ProdutoService;
 
 @SpringBootApplication
@@ -41,6 +49,14 @@ public class CursomcApplication implements CommandLineRunner {
 
 	@Autowired
 	private EnderecoService endServ;
+	
+	@Autowired
+	private PedidoService pedServ;
+	
+	@Autowired
+	private PagamentoService pagServ;
+	
+
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -88,9 +104,23 @@ public class CursomcApplication implements CommandLineRunner {
 		e2.getTelefones().addAll(Arrays.asList("(11) 9999-9999"));
 
 		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+	
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		Pedido ped1 = new Pedido(null, sdf.parse("30/09/2019 10:32"), cli1, e1);
+		Pedido ped2 = new Pedido(null, sdf.parse("10/10/2019 19:35"), cli1, e2);
+		
+		Pagamento pagto1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
+		ped1.setPagamento(pagto1);
+		
+		Pagamento pagto2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("20/10/2017 00:00"), null);
+		ped2.setPagamento(pagto2);
+		
+		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
 
 		cliServ.postClientes(Arrays.asList(cli1));
 		endServ.postEnderecos(Arrays.asList(e1, e2));
+		pedServ.postPedidos(Arrays.asList(ped1, ped2));
+		pagServ.postPagamentos(Arrays.asList(pagto1, pagto2));		
 		
 	}
 }
