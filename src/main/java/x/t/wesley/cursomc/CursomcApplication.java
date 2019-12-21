@@ -13,6 +13,7 @@ import x.t.wesley.cursomc.domain.Cidade;
 import x.t.wesley.cursomc.domain.Cliente;
 import x.t.wesley.cursomc.domain.Endereco;
 import x.t.wesley.cursomc.domain.Estado;
+import x.t.wesley.cursomc.domain.ItemPedido;
 import x.t.wesley.cursomc.domain.Pagamento;
 import x.t.wesley.cursomc.domain.PagamentoComBoleto;
 import x.t.wesley.cursomc.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import x.t.wesley.cursomc.services.CidadeService;
 import x.t.wesley.cursomc.services.ClienteService;
 import x.t.wesley.cursomc.services.EnderecoService;
 import x.t.wesley.cursomc.services.EstadoService;
+import x.t.wesley.cursomc.services.ItemPedidoService;
 import x.t.wesley.cursomc.services.PagamentoService;
 import x.t.wesley.cursomc.services.PedidoService;
 import x.t.wesley.cursomc.services.ProdutoService;
@@ -56,7 +58,8 @@ public class CursomcApplication implements CommandLineRunner {
 	@Autowired
 	private PagamentoService pagServ;
 	
-
+	@Autowired
+	private ItemPedidoService ipServ;	
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -120,7 +123,20 @@ public class CursomcApplication implements CommandLineRunner {
 		cliServ.postClientes(Arrays.asList(cli1));
 		endServ.postEnderecos(Arrays.asList(e1, e2));
 		pedServ.postPedidos(Arrays.asList(ped1, ped2));
-		pagServ.postPagamentos(Arrays.asList(pagto1, pagto2));		
+		pagServ.postPagamentos(Arrays.asList(pagto1, pagto2));
+		
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+		
+		ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+		
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+		
+		ipServ.postItemPedidos(Arrays.asList(ip1, ip2, ip3));
 		
 	}
 }
