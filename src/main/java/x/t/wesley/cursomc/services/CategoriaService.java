@@ -34,7 +34,12 @@ public class CategoriaService {
 	public Categoria postCategoria(Categoria categoria) {
 		//Garantir que será um novo registro!
 		categoria.setId(null);
-		
+		return catRep.save(categoria);
+	}
+	
+	public Categoria putCategoria(Categoria categoria) {
+	
+		getCategoria(categoria.getId());		
 		return catRep.save(categoria);
 	}
 
