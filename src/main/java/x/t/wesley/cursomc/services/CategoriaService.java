@@ -31,12 +31,15 @@ public class CategoriaService {
 		return categoria.orElse(null);
 	}
 
-	public void postCategoria(Categoria categoria) {
-		catRep.save(categoria);
+	public Categoria postCategoria(Categoria categoria) {
+		//Garantir que será um novo registro!
+		categoria.setId(null);
+		
+		return catRep.save(categoria);
 	}
 
-	public void postCategorias(List<Categoria> categorias) {
-		catRep.saveAll(categorias);
+	public List<Categoria> postCategorias(List<Categoria> categorias) {
+		return catRep.saveAll(categorias);
 	}
 
 }
