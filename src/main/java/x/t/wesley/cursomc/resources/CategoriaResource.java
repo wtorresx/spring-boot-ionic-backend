@@ -1,6 +1,8 @@
 package x.t.wesley.cursomc.resources;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import x.t.wesley.cursomc.domain.Categoria;
+import x.t.wesley.cursomc.dto.CategoriaDTO;
 import x.t.wesley.cursomc.services.CategoriaService;
 
 @RestController
@@ -25,8 +28,12 @@ public class CategoriaResource {
 	private CategoriaService catServ;
 
 	@GetMapping
-	public ResponseEntity<?> Categorias() {
-		return ResponseEntity.ok().body(catServ.getCategorias());
+	public ResponseEntity<List<CategoriaDTO>> Categorias() {
+		List<Categoria> categorias = catServ.getCategorias();
+		
+		List<CategoriaDTO> categoriasDTO = categorias.stream().map(categoria -> new CategoriaDTO(categoria)).collect(Collectors.toList());
+		
+		return ResponseEntity.ok().body(categoriasDTO);
 	}
 
 	@GetMapping(value = "/{id}")
