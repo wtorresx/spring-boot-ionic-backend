@@ -23,7 +23,7 @@ public class ClienteResource {
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<?> Cliente(@PathVariable("id") Integer id) {
+	public ResponseEntity<Cliente> Cliente(@PathVariable("id") Integer id) {
 		Cliente categoria = cliServ.getCliente(id);
 		return ResponseEntity.ok().body(categoria);
 	}

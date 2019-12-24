@@ -4,6 +4,7 @@ import java.net.URI;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,25 +37,27 @@ public class CategoriaResource {
 
 	@PostMapping
 	public ResponseEntity<Void> novaCategoria(@RequestBody Categoria categoria) {
-		
+
 		categoria = catServ.postCategoria(categoria);
-		
-		URI uri = ServletUriComponentsBuilder
-				.fromCurrentRequest()
-				.path("/{id}")
-				.buildAndExpand(categoria.getId())
+
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(categoria.getId())
 				.toUri();
-		
+
 		return ResponseEntity.created(uri).build();
 	}
-	
-	@PutMapping(value ="/{id}")
-	public ResponseEntity<Void> editarCategoria(@RequestBody Categoria categoria, @PathVariable Integer id){
+
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<Void> editarCategoria(@RequestBody Categoria categoria, @PathVariable Integer id) {
 		categoria.setId(id);
 		categoria = catServ.putCategoria(categoria);
-		
+
 		return ResponseEntity.noContent().build();
-		
+	}
+
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<Void> deletarCategoria(@PathVariable Integer id) {
+		catServ.deleteCategoria(id);
+		return ResponseEntity.noContent().build();
 	}
 
 }
