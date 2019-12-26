@@ -56,8 +56,10 @@ public class CategoriaService {
 	public Categoria putCategoria(Categoria categoria) {
 
 		// Garantir que a categoria existe
-		getCategoria(categoria.getId());
-		return catRep.save(categoria);
+		Categoria newCategoria = getCategoria(categoria.getId());
+		
+		updateData(newCategoria, categoria);
+		return catRep.save(newCategoria);
 	}
 
 	public void deleteCategoria(Integer id) {
@@ -72,5 +74,9 @@ public class CategoriaService {
 	
 	public Categoria fromDTO(CategoriaDTO categoriaDTO) {
 		return new Categoria(categoriaDTO.getId(), categoriaDTO.getNome());
+	}
+	
+	private void updateData(Categoria newCategoria, Categoria categoria) {
+		newCategoria.setNome(categoria.getNome());
 	}
 }

@@ -57,9 +57,8 @@ public class ClienteService {
 
 		// Garantir que a cliente existe
 		Cliente newCliente = getCliente(cliente.getId());
-
+		
 		updateData(newCliente, cliente);
-
 		return cliRep.save(newCliente);
 	}
 
