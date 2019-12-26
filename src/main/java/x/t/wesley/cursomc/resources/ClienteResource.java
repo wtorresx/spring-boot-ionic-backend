@@ -22,6 +22,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import x.t.wesley.cursomc.domain.Cliente;
 import x.t.wesley.cursomc.dto.ClienteDTO;
+import x.t.wesley.cursomc.dto.ClienteNewDTO;
 import x.t.wesley.cursomc.services.ClienteService;
 
 @RestController
@@ -60,9 +61,9 @@ public class ClienteResource {
 	}
 		
 	@PostMapping
-	public ResponseEntity<Void> novaCliente(@Valid @RequestBody ClienteDTO clienteDTO) {
+	public ResponseEntity<Void> novaCliente(@Valid @RequestBody ClienteNewDTO clienteNewDTO) {
 		
-		Cliente cliente = cliServ.fromDTO(clienteDTO);		
+		Cliente cliente = cliServ.fromDTO(clienteNewDTO);		
 		cliente = cliServ.postCliente(cliente);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(cliente.getId())
 				.toUri();
