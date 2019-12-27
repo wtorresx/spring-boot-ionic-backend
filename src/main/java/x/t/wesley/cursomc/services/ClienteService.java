@@ -47,7 +47,6 @@ public class ClienteService {
 			throw new ObjectNotFoundException(
 					"Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName());
 		}
-		;
 
 		return cliente.orElse(null);
 	}
@@ -56,9 +55,8 @@ public class ClienteService {
 	public Cliente postCliente(Cliente cliente) {
 		// Garantir que será um novo registro!
 		cliente.setId(null);
-		
 		endRep.saveAll(cliente.getEnderecos());
-		
+			
 		return cliRep.save(cliente);
 	}
 

@@ -21,24 +21,26 @@ public class ResourceExceptionHandler {
 		StandardError err = new StandardError(HttpStatus.NOT_FOUND.value(), e.getMessage(), System.currentTimeMillis());
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
 	}
-	
+
 	@ExceptionHandler(DataIntegrityException.class)
 	public ResponseEntity<StandardError> dataIntegrity(DataIntegrityException e, HttpServletRequest request) {
 
-		StandardError err = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+		StandardError err = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(),
+				System.currentTimeMillis());
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
 	}
-	
-	
+		
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<StandardError> beanValidation(MethodArgumentNotValidException e, HttpServletRequest request) {
 
-		BeanValidationError err = new BeanValidationError(HttpStatus.BAD_REQUEST.value(), "Erro de Validação", System.currentTimeMillis());
-		
-		for(FieldError x : e.getBindingResult().getFieldErrors()) {
+		BeanValidationError err = new BeanValidationError(HttpStatus.BAD_REQUEST.value(), "Erro de Validação",
+				System.currentTimeMillis());
+
+		for (FieldError x : e.getBindingResult().getFieldErrors()) {
 			err.addError(x.getField(), x.getDefaultMessage());
 		}
-				
+
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
 	}
+
 }

@@ -34,6 +34,7 @@ public class ClienteResource {
 
 	@GetMapping
 	public ResponseEntity<List<ClienteDTO>> Clientes() {
+
 		List<Cliente> clientes = cliServ.getClientes();
 
 		List<ClienteDTO> clientesDTO = clientes.stream().map(cliente -> new ClienteDTO(cliente))
@@ -41,14 +42,13 @@ public class ClienteResource {
 
 		return ResponseEntity.ok().body(clientesDTO);
 	}
-	
-	@GetMapping(value="/page")
-	public ResponseEntity<Page<ClienteDTO>> ClientesPage(
-			@RequestParam(value="page", defaultValue = "0") Integer page,
-			@RequestParam(value="linesPerPage", defaultValue = "24") Integer linesPerPage,
-			@RequestParam(value="orderBy", defaultValue = "nome") String orderBy,
-			@RequestParam(value="direction", defaultValue = "ASC") String direction) {
-		
+
+	@GetMapping(value = "/page")
+	public ResponseEntity<Page<ClienteDTO>> ClientesPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
+			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
+			@RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
+			@RequestParam(value = "direction", defaultValue = "ASC") String direction) {
+
 		Page<Cliente> clientes = cliServ.getClientesPage(page, linesPerPage, orderBy, direction);
 		Page<ClienteDTO> clientesDTO = clientes.map(cliente -> new ClienteDTO(cliente));
 		return ResponseEntity.ok().body(clientesDTO);
@@ -59,12 +59,14 @@ public class ClienteResource {
 		Cliente cliente = cliServ.getCliente(id);
 		return ResponseEntity.ok().body(cliente);
 	}
-		
+
 	@PostMapping
-	public ResponseEntity<Void> novaCliente(@Valid @RequestBody ClienteNewDTO clienteNewDTO) {
-		
-		Cliente cliente = cliServ.fromDTO(clienteNewDTO);		
+	public ResponseEntity<Void> novoCliente(@Valid @RequestBody ClienteNewDTO clienteNewDTO) {
+
+		Cliente cliente = cliServ.fromDTO(clienteNewDTO);
+
 		cliente = cliServ.postCliente(cliente);
+
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(cliente.getId())
 				.toUri();
 
@@ -73,9 +75,9 @@ public class ClienteResource {
 
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<Void> editarCliente(@Valid @RequestBody ClienteDTO clienteDTO, @PathVariable Integer id) {
-		
+
 		Cliente cliente = cliServ.fromDTO(clienteDTO);
-		
+
 		cliente.setId(id);
 		cliente = cliServ.putCliente(cliente);
 
@@ -87,6 +89,5 @@ public class ClienteResource {
 		cliServ.deleteCliente(id);
 		return ResponseEntity.noContent().build();
 	}
-	
 
 }

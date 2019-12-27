@@ -7,5 +7,5 @@ import x.t.wesley.cursomc.domain.Cliente;
 
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
-
+	
 }
