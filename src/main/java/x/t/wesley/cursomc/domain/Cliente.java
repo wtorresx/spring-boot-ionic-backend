@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,9 +26,8 @@ public class Cliente implements Serializable {
 	private Integer id;
 	private String nome;
 
-	//@Column(unique = true) - Apresentando erro para acrescentar o tratamento de exceção!
+	@Column(unique = true)
 	private String email;
-
 	private String cpfOuCnpj;
 	private Integer tipo;
 

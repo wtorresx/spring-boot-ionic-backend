@@ -1,7 +1,6 @@
 package x.t.wesley.cursomc.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -25,22 +24,21 @@ public class CategoriaService {
 	public List<Categoria> getCategorias() {
 		return catRep.findAll();
 	}
-	
-	public Page<Categoria> getCategoriasPage(Integer page, Integer linesPerPage, String orderBy, String direction){
-		PageRequest pageRequest = PageRequest.of(page, linesPerPage,Direction.valueOf(direction), orderBy);
+
+	public Page<Categoria> getCategoriasPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return catRep.findAll(pageRequest);
 	}
 
 	public Categoria getCategoria(Integer id) {
-		Optional<Categoria> categoria = catRep.findById(id);
+		Categoria categoria = catRep.findCategoria(id);
 
-		if (categoria.orElse(null) == null) {
+		if (categoria == null) {
 			throw new ObjectNotFoundException(
 					"Objeto não encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName());
 		}
-		;
 
-		return categoria.orElse(null);
+		return categoria;
 	}
 
 	public Categoria postCategoria(Categoria categoria) {
@@ -57,7 +55,7 @@ public class CategoriaService {
 
 		// Garantir que a categoria existe
 		Categoria newCategoria = getCategoria(categoria.getId());
-		
+
 		updateData(newCategoria, categoria);
 		return catRep.save(newCategoria);
 	}
@@ -71,11 +69,11 @@ public class CategoriaService {
 			throw new DataIntegrityException("Não é possível excluir uma categoria que possui produtos!");
 		}
 	}
-	
+
 	public Categoria fromDTO(CategoriaDTO categoriaDTO) {
 		return new Categoria(categoriaDTO.getId(), categoriaDTO.getNome());
 	}
-	
+
 	private void updateData(Categoria newCategoria, Categoria categoria) {
 		newCategoria.setNome(categoria.getNome());
 	}

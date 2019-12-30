@@ -29,7 +29,7 @@ public class ResourceExceptionHandler {
 				System.currentTimeMillis());
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
 	}
-		
+			
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<StandardError> beanValidation(MethodArgumentNotValidException e, HttpServletRequest request) {
 
