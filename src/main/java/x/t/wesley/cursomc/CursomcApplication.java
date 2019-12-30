@@ -1,5 +1,6 @@
 package x.t.wesley.cursomc;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
@@ -62,9 +63,17 @@ public class CursomcApplication implements CommandLineRunner {
 	private ItemPedidoService ipServ;	
 
 	public static void main(String[] args) {
+		
+		File f1 = new File( "~/test.mv.db" );
+		File f2 = new File( "~/test.trace.db" );
+		
+		f1.delete(); 
+		f2.delete(); 
+		
+		
 		SpringApplication.run(CursomcApplication.class, args);
 	}
-
+	
 	@Override
 	public void run(String... args) throws Exception {
 		

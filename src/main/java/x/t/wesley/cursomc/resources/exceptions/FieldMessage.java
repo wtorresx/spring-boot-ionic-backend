@@ -23,7 +23,8 @@ public class FieldMessage implements Serializable {
 		return fieldName;
 	}
 
-	public void setFieldName(String fieldName) {
+
+	public void setFildName(String fieldName) {
 		this.fieldName = fieldName;
 	}
 
