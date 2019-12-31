@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Profile;
 import x.t.wesley.cursomc.services.DBService;
 
 @Configuration
-@Profile("teste")
+@Profile("test")
 public class TestConfig {
 	
 	@Autowired

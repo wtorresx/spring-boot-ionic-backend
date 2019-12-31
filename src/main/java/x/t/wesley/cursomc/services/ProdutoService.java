@@ -1,7 +1,6 @@
 package x.t.wesley.cursomc.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,15 +28,15 @@ public class ProdutoService {
 	}
 
 	public Produto getProduto(Integer id) {
-		Optional<Produto> produto = prodRep.findById(id);
+		Produto produto = prodRep.findProduto(id);
 
-		if (produto.orElse(null) == null) {
+		if (produto== null) {
 			throw new ObjectNotFoundException(
 					"Objeto não encontrado! Id: " + id + ", Tipo: " + Produto.class.getName());
 		}
 		;
 
-		return produto.orElse(null);
+		return produto;
 	}
 
 	public Page<Produto> getProdutosPage(String nome, List<Integer> ids, Integer page, Integer linesPerPage,

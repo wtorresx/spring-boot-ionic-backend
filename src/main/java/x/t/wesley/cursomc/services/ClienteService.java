@@ -1,7 +1,6 @@
 package x.t.wesley.cursomc.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -41,14 +40,14 @@ public class ClienteService {
 	}
 
 	public Cliente getCliente(Integer id) {
-		Optional<Cliente> cliente = cliRep.findById(id);
+		Cliente cliente = cliRep.findCliente(id);
 
-		if (cliente.orElse(null) == null) {
+		if (cliente==null) {
 			throw new ObjectNotFoundException(
 					"Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName());
 		}
 
-		return cliente.orElse(null);
+		return cliente;
 	}
 
 	@Transactional
