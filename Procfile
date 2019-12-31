@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT -Dspring.profiles.active=prod $JAVA_OPTS -war target/csi.war
+web: java -Dserver.port=$PORT -Dspring.profiles.active=prod $JAVA_OPTS -jar target/csi.war
