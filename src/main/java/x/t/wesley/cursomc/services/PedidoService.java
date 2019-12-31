@@ -38,6 +38,9 @@ public class PedidoService {
 
 	@Autowired
 	private ItemPedidoRepository ipRep;
+	
+	@Autowired
+	private EmailService emailService;
 
 	public List<Pedido> getPedidos() {
 		return pedRep.findAll();
@@ -78,7 +81,7 @@ public class PedidoService {
 			
 		}
 		
-		System.out.println(pedido);
+		emailService.sendOrderConfirmationEmail(pedido);
 		
 		return pedido;
 
