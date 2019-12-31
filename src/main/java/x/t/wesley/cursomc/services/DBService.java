@@ -110,7 +110,7 @@ public class DBService {
 		estServ.postEstados(Arrays.asList(est1, est2));
 		cidServ.postCidades(Arrays.asList(c1, c2, c3, c4));
 
-		Cliente cli1 = new Cliente(null, "Maria Silva", "maria3asd1111sdfs@gmail.com", "85614781609",
+		Cliente cli1 = new Cliente(null, "Maria Silva", "wesley.xavier@outlook.com", "85614781609",
 				TipoCliente.PESSOAFISICA);
 
 		Endereco e1 = new Endereco(null, "Rua Flores", "300", "Apto 303", "Jardim", "38220834", c1, cli1);
