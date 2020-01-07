@@ -14,11 +14,14 @@ import org.springframework.transaction.annotation.Transactional;
 import x.t.wesley.cursomc.domain.Cidade;
 import x.t.wesley.cursomc.domain.Cliente;
 import x.t.wesley.cursomc.domain.Endereco;
+import x.t.wesley.cursomc.domain.enums.Perfil;
 import x.t.wesley.cursomc.domain.enums.TipoCliente;
 import x.t.wesley.cursomc.dto.ClienteDTO;
 import x.t.wesley.cursomc.dto.ClienteNewDTO;
 import x.t.wesley.cursomc.repositories.ClienteRepository;
 import x.t.wesley.cursomc.repositories.EnderecoRepository;
+import x.t.wesley.cursomc.security.UserSS;
+import x.t.wesley.cursomc.services.exceptions.AuthorizationException;
 import x.t.wesley.cursomc.services.exceptions.DataIntegrityException;
 import x.t.wesley.cursomc.services.exceptions.ObjectNotFoundException;
 
@@ -44,6 +47,14 @@ public class ClienteService {
 	}
 
 	public Cliente getCliente(Integer id) {
+		
+		UserSS user = UserService.authenticated();
+		
+		if(user==null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		
+		
 		Cliente cliente = cliRep.findCliente(id);
 
 		if (cliente == null) {
