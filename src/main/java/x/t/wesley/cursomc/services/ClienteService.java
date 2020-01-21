@@ -1,5 +1,6 @@
 package x.t.wesley.cursomc.services;
 
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import x.t.wesley.cursomc.domain.Cidade;
 import x.t.wesley.cursomc.domain.Cliente;
@@ -37,6 +39,9 @@ public class ClienteService {
 	@Autowired
 	private BCryptPasswordEncoder passEncoder;
 
+	@Autowired
+	private S3Service s3Service;
+
 	public List<Cliente> getClientes() {
 		return cliRep.findAll();
 	}
@@ -47,14 +52,13 @@ public class ClienteService {
 	}
 
 	public Cliente getCliente(Integer id) {
-		
+
 		UserSS user = UserService.authenticated();
-		
-		if(user==null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+
+		if (user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
 			throw new AuthorizationException("Acesso negado");
 		}
-		
-		
+
 		Cliente cliente = cliRep.findCliente(id);
 
 		if (cliente == null) {
@@ -120,6 +124,10 @@ public class ClienteService {
 	private void updateData(Cliente newCliente, Cliente cliente) {
 		newCliente.setNome(cliente.getNome());
 		newCliente.setEmail(cliente.getEmail());
+	}
+
+	public URI uploadProfilePicture(MultipartFile multipartFile) {
+		return s3Service.uploadFile(multipartFile);
 	}
 
 }

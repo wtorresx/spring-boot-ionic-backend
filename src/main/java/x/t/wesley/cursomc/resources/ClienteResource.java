@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import x.t.wesley.cursomc.domain.Cliente;
@@ -85,13 +86,18 @@ public class ClienteResource {
 
 		return ResponseEntity.noContent().build();
 	}
-	
-	
+
 	@DeleteMapping(value = "/{id}")
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<Void> deletarCliente(@PathVariable Integer id) {
 		cliServ.deleteCliente(id);
 		return ResponseEntity.noContent().build();
+	}
+
+	@PostMapping(value = "/picture")
+	public ResponseEntity<Void> uploadProfilePicture(@RequestParam(name = "file") MultipartFile file) {
+		URI uri = cliServ.uploadProfilePicture(file);
+		return ResponseEntity.created(uri).build();
 	}
 
 }
