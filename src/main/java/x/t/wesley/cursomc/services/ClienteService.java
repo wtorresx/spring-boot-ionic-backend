@@ -47,8 +47,11 @@ public class ClienteService {
 	@Autowired
 	private ImageService imageService;
 
-	@Value("${img.prefix.client.profile}")
+	@Value("${img.client.profile.prefix}")
 	private String prefix;
+
+	@Value("${img.client.profile.size}")
+	private int size;
 
 	public List<Cliente> getClientes() {
 		return cliRep.findAll();
@@ -143,6 +146,10 @@ public class ClienteService {
 		}
 
 		BufferedImage jpgImage = imageService.getJpgImageFromFile(multipartFile);
+
+		jpgImage = imageService.cropSquare(jpgImage);
+
+		jpgImage = imageService.resize(jpgImage, size);
 
 		String fileName = prefix + user.getId() + ".jpg";
 
